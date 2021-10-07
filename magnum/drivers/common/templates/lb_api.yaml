@@ -36,6 +36,7 @@ resources:
     type: Magnum::Optional::Neutron::LBaaS::LoadBalancer
     properties:
       vip_subnet: {get_param: fixed_subnet}
+      flavor: {get_param: master_lb_flavor}
 
   listener:
     condition: allowed_cidrs_disabled
