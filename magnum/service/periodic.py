@@ -113,12 +113,16 @@ class ClusterHealthUpdateJob(object):
             # UNKNOWN if Magnum failed to pull data from the cluster? Because
             # that basically means the k8s API doesn't work at that moment.
             return
-
+        old_status = self.cluster.health_status
         if monitor.data.get('health_status'):
             self.cluster.health_status = monitor.data.get('health_status')
             self.cluster.health_status_reason = monitor.data.get(
                 'health_status_reason')
             self.cluster.save()
+        if old_status != self.cluster.health_status:
+            conductor_utils.notify_about_cluster_operation(
+                self.ctx, taxonomy.ACTION_UPDATE,
+                taxonomy.OUTCOME_SUCCESS, self.cluster)
 
     def update_health_status(self):
         LOG.debug("Updating health status for cluster %s", self.cluster.id)
