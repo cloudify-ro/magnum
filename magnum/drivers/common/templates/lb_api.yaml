@@ -18,7 +18,7 @@ parameters:
   external_network:
     type: string
 
-  master_lb_flavor:
+  flavor:
     type: string
 
   protocol:
@@ -39,7 +39,7 @@ resources:
     type: Magnum::Optional::Neutron::LBaaS::LoadBalancer
     properties:
       vip_subnet: {get_param: fixed_subnet}
-      flavor: {get_param: master_lb_flavor}
+      flavor: {get_param: flavor}
 
   listener:
     condition: allowed_cidrs_disabled

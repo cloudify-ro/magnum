@@ -987,6 +987,12 @@ parameters:
     description: The allowed CIDR list for master load balancer
     default: []
 
+  master_lb_flavor:
+    type: string
+    default: ""
+    description: >
+      An Octavia flavor ID or name to use for master and etcd load balancers.
+
 resources:
 
   ######################################################################
@@ -1017,6 +1023,7 @@ resources:
       protocol: {get_param: loadbalancing_protocol}
       port: {get_param: kubernetes_port}
       allowed_cidrs: {get_param: master_lb_allowed_cidrs}
+      flavor: {get_param: master_lb_flavor}
 
   etcd_lb:
     condition: create_cluster_resources
@@ -1026,6 +1033,7 @@ resources:
       protocol: {get_param: loadbalancing_protocol}
       port: 2379
       allowed_cidrs: {get_param: master_lb_allowed_cidrs}
+      flavor: {get_param: master_lb_flavor}
 
   ######################################################################
   #
