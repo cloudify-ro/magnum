@@ -18,6 +18,9 @@ parameters:
   external_network:
     type: string
 
+  master_lb_flavor:
+    type: string
+
   protocol:
     type: string
     default: TCP

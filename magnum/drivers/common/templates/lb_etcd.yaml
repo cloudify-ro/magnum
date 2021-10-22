@@ -16,6 +16,9 @@ parameters:
   fixed_subnet:
     type: string
 
+  master_lb_flavor:
+    type: string
+
   protocol:
     type: string
     default: TCP
