@@ -50,10 +50,14 @@ class K8sFedoraTemplateDefinition(k8s_template_def.K8sTemplateDefinition):
         extra_params['nodes_affinity_policy'] = \
             CONF.cluster.nodes_affinity_policy
 
-        if cluster_template.network_driver == 'flannel':
+        network_driver = cluster.labels.get('network_driver')
+        if not network_driver:
+            network_driver = cluster_template.network_driver
+
+        if network_driver == 'flannel':
             extra_params["pods_network_cidr"] = \
                 cluster.labels.get('flannel_network_cidr', '10.100.0.0/16')
-        if cluster_template.network_driver == 'calico':
+        if network_driver == 'calico':
             extra_params["pods_network_cidr"] = \
                 cluster.labels.get('calico_ipv4pool', '10.100.0.0/16')
 
@@ -126,7 +130,8 @@ class K8sFedoraTemplateDefinition(k8s_template_def.K8sTemplateDefinition):
                       'min_node_count', 'max_node_count', 'npd_enabled',
                       'ostree_remote', 'ostree_commit',
                       'use_podman', 'kube_image_digest',
-                      'metrics_scraper_tag']
+                      'metrics_scraper_tag',
+                      'network_driver']
 
         labels = self._get_relevant_labels(cluster, kwargs)
 
