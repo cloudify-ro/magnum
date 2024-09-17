@@ -16,6 +16,9 @@ parameters:
   fixed_subnet:
     type: string
 
+  flavor:
+    type: string
+
   protocol:
     type: string
     default: TCP
@@ -34,6 +37,7 @@ resources:
     type: Magnum::Optional::Neutron::LBaaS::LoadBalancer
     properties:
       vip_subnet: {get_param: fixed_subnet}
+      flavor: {get_param: flavor}
 
   listener:
     condition: allowed_cidrs_disabled
